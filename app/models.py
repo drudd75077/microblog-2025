@@ -11,6 +11,7 @@ class User(UserMixin, db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     username: so.Mapped[str] = so.mapped_column(sa.String(64), index=True,
                                                 unique=True)
+    image_file: so.Mapped[str] = so.mapped_column(sa.String(20), nullable=False, default='default.jpg')
     email: so.Mapped[str] = so.mapped_column(sa.String(120), index=True,
                                              unique=True)
     password_hash: so.Mapped[Optional[str]] = so.mapped_column(sa.String(256))
@@ -27,7 +28,7 @@ class User(UserMixin, db.Model):
 
 @login.user_loader
 def load_user(id):
-    return db.session.get(User, int(id))
+    return db.session.get(User, int)
   
 class Post(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)

@@ -14,7 +14,7 @@ class User(UserMixin, db.Model):
     email: so.Mapped[str] = so.mapped_column(sa.String(120), index=True,
                                              unique=True)
     password_hash: so.Mapped[Optional[str]] = so.mapped_column(sa.String(256))
-
+    image_file: so.Mapped[str] = so.mapped_column(sa.String(20), nullable=False, server_default='default.jpg')
     posts: so.WriteOnlyMapped['Post'] = so.relationship(
         back_populates='author')
 

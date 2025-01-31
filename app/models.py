@@ -17,6 +17,8 @@ class User(UserMixin, db.Model):
     image_file: so.Mapped[str] = so.mapped_column(sa.String(20), nullable=False, server_default='default.jpg')
     posts: so.WriteOnlyMapped['Post'] = so.relationship(
         back_populates='author')
+    about_me: so.Mapped[Optional[str]] = so.mapped_column(sa.String(140))
+    last_seen: so.Mapped[Optional[datetime]] = so.mapped_column(default=lambda: datetime.now(timezone.utc))
 
     def __repr__(self):
         return '<User {}>'.format(self.username)

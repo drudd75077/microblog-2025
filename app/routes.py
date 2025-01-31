@@ -1,4 +1,5 @@
 from urllib.parse import urlsplit
+import os
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, logout_user, current_user, login_required
 import sqlalchemy as sa
@@ -11,6 +12,8 @@ from app.models import User
 @app.route('/index')
 @login_required
 def index():
+    if current_user.is_autheticated:
+        image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     posts = [
         {
             'author': {'username': 'John'},
@@ -21,7 +24,7 @@ def index():
             'body': 'The Avengers movie was so cool!'
         }
     ]
-    return render_template('index.html', title='Home', posts=posts)
+    return render_template('index.html', title='Home', posts=posts, image_file=image_file)
 
 
 @app.route('/login', methods=['GET', 'POST'])

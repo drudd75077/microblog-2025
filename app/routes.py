@@ -12,8 +12,6 @@ from app.models import User
 @app.route('/index')
 @login_required
 def index():
-    if current_user.is_autheticated:
-        image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     posts = [
         {
             'author': {'username': 'John'},
@@ -24,7 +22,7 @@ def index():
             'body': 'The Avengers movie was so cool!'
         }
     ]
-    return render_template('index.html', title='Home', posts=posts, image_file=image_file)
+    return render_template('index.html', title='Home', posts=posts)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -70,10 +68,11 @@ def register():
 @login_required
 def user(username):
     user = db.first_or_404(sa.select(User).where(User.username == username))
+    image_file = url_for('static', filename='profile_pics/' + user.image_file)
     posts = [
         {'author':user, 'body':'Test post #1'},
         {'author':user, 'body':'Test post #2'}
     ]
-    return render_template('user.html', user=user, posts=posts)
+    return render_template('user.html', user=user, posts=posts, image_file=image_file)
 
 

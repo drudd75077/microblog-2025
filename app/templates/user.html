@@ -1,13 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-<img scr="{{ image_file }}">
-<h1> User:{{ user.username }} </h1>
+<table>
+    <tr valign="top">
+        <td><img src="{{ image_file }}" width="120" height="120"></td>
+        <td><h1> User:{{ user.username }} </h1></td>
+    </tr>
+</table>
 <hr>
 {% for post in posts %}
-<p>
-{{ post.author.username }} says: <b> {{ post.body }}</b>
-</p>
+    {% include "_post.html" %}
 {% endfor %}
 {% endblock %}
 

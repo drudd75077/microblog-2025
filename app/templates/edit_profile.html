@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Edit Profile</h1>
+
 <form method="POST" enctype="multipart/form-dat">
 {{ form.hidden_tag() }}
-{{ form.csrf_token }}
 <p>
     {{ form.username.label }}<br>
     {{ form.username(size=32)}}<br>
@@ -19,11 +19,15 @@
     {% endfor %}
 </p>
 <p>
-    {{form.image_file.label()}}
-    {{form.file()}}
+    {{form.image_file.label()}}<br>
+    {{form.image_file}}<br>
+    {% for error in form.image_file.errors %}
+    <span style="color: red;">[{{error}}]</span>
+    {% endfor %}
 </p>
 <p>{{ form.submit()}}</p>
 </form>
+{{ temp }}
 {% endblock %}
 
 

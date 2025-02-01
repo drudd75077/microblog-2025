@@ -100,19 +100,23 @@ def save_picture(form_picture):
 @login_required
 def edit_profile():
     form = EditProfileForm()
+    temp = ''
     if form.validate_on_submit():
         if form.image_file.data:
+            temp = 'true'
             picture_file = save_picture(form.image_file.data)
             current_user.image_file = picture_file
+        else:
+            temp = form.image_file.data
         current_user.username = form.username.data
         current_user.about_me = form.about_me.data
         db.session.commit()
-        flash('Your changes have been saved.')
-        return redirect(url_for('edit_profile'))
+        flash(f"Your changes have been saved.{temp}")
+        return redirect(url_for('edit_profile', temp=temp))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
-    return render_template('edit_profile.html', title='Edit Profile', form=form)
+    return render_template('edit_profile.html', title='Edit Profile', form=form, temp=temp)
         
 
 

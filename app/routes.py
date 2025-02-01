@@ -1,4 +1,5 @@
 from urllib.parse import urlsplit
+from werkzeug.utils import secure_filename
 from datetime import datetime, timezone
 import os
 from PIL import Image
@@ -102,6 +103,8 @@ def edit_profile():
     form = EditProfileForm()
     temp = ''
     if form.validate_on_submit():
+        print('test')
+        print(secure_filename(form.image_file.data.filename))
         if form.image_file.data:
             temp = 'true'
             picture_file = save_picture(form.image_file.data)

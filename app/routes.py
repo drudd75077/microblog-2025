@@ -103,8 +103,8 @@ def upload():
     form = UploadForm()
     if form.validate_on_submit():
         image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
-        filename = secure_filename(form.file.data.filename)
-        if filename:
+        if form.file.data:
+            filename = secure_filename(form.file.data.filename)
             image_name = current_user.image_file
             picture_file = save_picture(form.file.data)
             current_user.image_file = picture_file

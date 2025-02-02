@@ -40,4 +40,3 @@ app.db
 microblog.log*
 *.db
 *.sqlite
-/app/static

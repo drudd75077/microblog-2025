@@ -97,35 +97,34 @@ def save_picture(form_picture):
     
     return picture_fn
 
-@app.route('/edit_profile', methods=['GET','POST'])
-@login_required
-def edit_profile():
-    form = EditProfileForm()
-    print(form.image_file)
-    temp = ''
-    if form.validate_on_submit():
-        if form.image_file.data:
-            picture_file = save_picture(form.image_file.data)
-            current_user.image_file = picture_file
-        current_user.username = form.username.data
-        current_user.about_me = form.about_me.data
-        db.session.commit()
-        flash(f"Your changes have been saved.{temp}")
-        return redirect(url_for('edit_profile', temp=temp))
-    elif request.method == 'GET':
-        form.username.data = current_user.username
-        form.about_me.data = current_user.about_me
-    return render_template('edit_profile.html', title='Edit Profile', form=form, temp=temp)
-
 @app.route('/upload', methods=['GET', 'POST'])
+@login_required
 def upload():
     form = UploadForm()
     if form.validate_on_submit():
+        image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
         filename = secure_filename(form.file.data.filename)
-        form.file.data.save(filename)
-        return redirect(url_for('upload'))
-    return render_template('upload.html', form=form)
-        
+        if filename:
+            image_name = current_user.image_file
+            picture_file = save_picture(form.file.data)
+            current_user.image_file = picture_file
+            db.session.commit()
+            os.remove(os.path.join(app.root_path, 'static/profile_pics', image_name))
+            image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+        current_user.about_me = form.about_me.data
+        current_user.username = form.username.data
+        db.session.commit()
+        flash(f"Your changes have been saved.")
+        return render_template('upload.html', form=form, filename=filename, current_user=current_user, title='Edit Profile', image_file=image_file)
+    else:
+        try:
+            image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+        except:
+            image_file = url_for('static', filename='profile_pics/default.jpg')
+        form.username.data = current_user.username
+        form.about_me.data = current_user.about_me
+        return render_template('upload.html', form=form, title='Edit Profile', image_file=image_file)
+     
 
 
 

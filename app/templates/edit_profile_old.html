@@ -14,20 +14,18 @@
 <p>
     {{form.about_me.label}}<br>
     {{form.about_me(cols=50, rows=4)}}<br>
-    {% for error in form.username.errors %}
+    {% for error in form.about_me.errors %}
     <span style="color: red;">[{{error}}]</span>
     {% endfor %}
 </p>
 <p>
-    {{form.image_file.label}}<br>
-    {{form.image_file}}<br>
-    {% for error in form.image_file.errors %}
+    {{ form.file }}<br>
+    {% for error in form.file.errors %}
     <span style="color: red;">[{{error}}]</span>
     {% endfor %}
 </p>
 <p>{{ form.submit()}}</p>
 </form>
-{{ temp }}
 {% endblock %}
 
 

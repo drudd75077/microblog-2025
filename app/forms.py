@@ -37,10 +37,12 @@ class RegistrationForm(FlaskForm):
 class EditProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])  
     about_me = TextAreaField('About Me', validators=[Length(min=0, max=140)])  
-    image_file = FileField('Profile Image', validators=[FileAllowed(['jpg', 'png'], 'Only .jpg or .png')])
+    file = FileField('Profile Image', validators=[FileAllowed(['jpg', 'png'], 'Only .jpg or .png')])
     submit = SubmitField('Submit')  
     
 class UploadForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    about_me = TextAreaField('About Me', validators=[Length(min=0, max=140)])
     file = FileField('Profile Image', validators=[FileAllowed(['jpg', 'png'], 'Only .jpg or .png')])
     submit = SubmitField('Submit')
         

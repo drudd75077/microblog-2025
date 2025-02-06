@@ -40,7 +40,7 @@ class EditProfileForm(FlaskForm):
     file = FileField('Profile Image', validators=[FileAllowed(['jpg', 'png'], 'Only .jpg or .png')])
     submit = SubmitField('Submit')
     
-    def __init__(self, original_username=username, *args, **kwargs):
+    def __init__(self, original_username, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.original_username = original_username
 

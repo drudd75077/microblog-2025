@@ -33,14 +33,8 @@ class RegistrationForm(FlaskForm):
             User.email == email.data))
         if user is not None:
             raise ValidationError('Please use a different email address.')
-
-class EditProfileForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])  
-    about_me = TextAreaField('About Me', validators=[Length(min=0, max=140)])  
-    file = FileField('Profile Image', validators=[FileAllowed(['jpg', 'png'], 'Only .jpg or .png')])
-    submit = SubmitField('Submit')  
     
-class UploadForm(FlaskForm):
+class EditProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     about_me = TextAreaField('About Me', validators=[Length(min=0, max=140)])
     file = FileField('Profile Image', validators=[FileAllowed(['jpg', 'png'], 'Only .jpg or .png')])

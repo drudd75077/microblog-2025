@@ -8,7 +8,7 @@ from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, logout_user, current_user, login_required
 import sqlalchemy as sa
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm, UploadForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm
 from app.models import User
 
 @app.before_request
@@ -97,10 +97,10 @@ def save_picture(form_picture):
     
     return picture_fn
 
-@app.route('/upload', methods=['GET', 'POST'])
+@app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
-def upload():
-    form = UploadForm()
+def edit_profile():
+    form = EditProfileForm()
     if form.validate_on_submit():
         image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
         if form.file.data:
@@ -115,7 +115,7 @@ def upload():
         current_user.username = form.username.data
         db.session.commit()
         flash(f"Your changes have been saved.")
-        return render_template('upload.html', form=form, filename=filename, current_user=current_user, title='Edit Profile', image_file=image_file)
+        return render_template('edit_profile.html', form=form, filename=filename, current_user=current_user, title='Edit Profile', image_file=image_file)
     else:
         try:
             image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
@@ -123,7 +123,7 @@ def upload():
             image_file = url_for('static', filename='profile_pics/default.jpg')
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
-        return render_template('upload.html', form=form, title='Edit Profile', image_file=image_file)
+        return render_template('edit_profile.html', form=form, title='Edit Profile', image_file=image_file)
      
 
 

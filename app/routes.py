@@ -101,6 +101,7 @@ def save_picture(form_picture):
 @login_required
 def edit_profile():
     form = EditProfileForm()
+    filename = None
     if form.validate_on_submit():
         image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
         if form.file.data:

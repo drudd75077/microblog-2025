@@ -40,17 +40,13 @@ if not app.debug:
             except Exception as e:
                 print(f"Failed to send email: {e}")
                 
-    # Configure logging
-    logger = logging.getLogger('EmailLogger')
-    logger.setLevel(logging.ERROR)
-
     # Set up SendGrid email handler
     api_key = app.config['SENDGRID_API_KEY']
     email_handler = SendGridEmailHandler(api_key, app.config['SENDGRID_RECIPIENTS'])
     formatter = logging.Formatter(
             '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]')
     email_handler.setFormatter(formatter)
-    logger.addHandler(email_handler)
+    app.logger.addHandler(email_handler)
 
 #sending log to text file
 if not os.path.exists('logs'):

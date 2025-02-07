@@ -109,7 +109,10 @@ def upload():
             picture_file = save_picture(form.file.data)
             current_user.image_file = picture_file
             db.session.commit()
-            os.remove(os.path.join(app.root_path, 'static/profile_pics', image_name))
+            try:
+                os.remove(os.path.join(app.root_path, 'static/profile_pics', image_name))
+            except:
+                pass
             image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
         current_user.about_me = form.about_me.data
         current_user.username = form.username.data

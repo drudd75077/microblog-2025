@@ -15,8 +15,8 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 login = LoginManager(app)
 login.login_view = 'login'
-
-if not app.debug:
+error_handles = 'N'
+if not app.debug and error_handles == 'Y':
     class SendGridEmailHandler(logging.Handler):
         def __init__(self, api_key, to_email):
             super().__init__()

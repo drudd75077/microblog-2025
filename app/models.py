@@ -69,6 +69,9 @@ class User(UserMixin, db.Model):
             self.following.select().subquery())
         return db.session.scalar(query)
 
+    def image(self):
+        
+    
     def following_posts(self):
         Author = so.aliased(User)
         Follower = so.aliased(User)

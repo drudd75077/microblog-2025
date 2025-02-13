@@ -22,10 +22,11 @@ class UserModelCase(unittest.TestCase):
         u.set_password('cat')
         self.assertFalse(u.check_password('dog'))
         self.assertTrue(u.check_password('cat'))
-
     def test_image(self):
         u = User(username='john', email='john@example.com')
-        self.assertEqual(u.image(20), ('testing.png'))
+        db.session.add(u)
+        db.session.commit()
+        self.assertEqual('default.jpg', db.session.query(User).where(User.email == 'john@example.com').first().image_file )
     def test_follow(self):
         u1 = User(username='john', email='john@example.com')
         u2 = User(username='susan', email='susan@example.com')
